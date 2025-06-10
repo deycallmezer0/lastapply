@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { JSDOM } from 'jsdom';
 import { db } from '@/lib/db';
 import { applications } from '@/lib/db/schema';
-import { generateJobInfo, generateJobInfoSimple, JobInfo } from '@/lib/openai';
+import { generateJobInfo, JobInfo } from '@/lib/openai';
 
 interface ScrapedData {
   title: string;
@@ -67,16 +67,7 @@ export async function POST(req: NextRequest) {
         scrapedData.requirements
       );
 
-      // If assistant fails, try the simple approach
-      if (!refinedJobInfo) {
-        console.log('Assistant failed, trying simple approach...');
-        refinedJobInfo = await generateJobInfoSimple(
-          scrapedData.title,
-          scrapedData.company,
-          scrapedData.location,
-          scrapedData.requirements
-        );
-      }
+     
     } catch (aiError) {
       console.error('AI processing failed:', aiError);
       // Fall back to scraped data if AI fails

@@ -21,8 +21,8 @@ interface JobInfo {
   experience_level?: string;
   employment_type?: string;
   skills?: string[];
+  responsibilities?: string[]; // Add this
 }
-
 
 interface JobInfoResponse {
   jobInfo: JobInfo;
@@ -350,6 +350,23 @@ export default function Home() {
           </p>
         </div>
       </div>
+
+      {/* Add Responsibilities section if available */}
+{jobInfo.responsibilities && Array.isArray(jobInfo.responsibilities) && (
+  <div className="space-y-2">
+    <Label className="text-sm font-medium">Key Responsibilities</Label>
+    <div className="bg-purple-50 p-3 rounded-md">
+      <ul className="text-sm text-gray-700 space-y-1">
+        {jobInfo.responsibilities.map((responsibility, index) => (
+          <li key={index} className="flex items-start gap-2">
+            <span className="text-purple-500 mt-1">•</span>
+            <span>{responsibility}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+)}
     </CardContent>
   </Card>
 )}
